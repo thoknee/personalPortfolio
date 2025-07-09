@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>X-Gram Language Modeling</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <aside class="sidebar">
+      <h3>Navigation</h3>
+      <ul>
+        <li><a href="/index.html">Home</a></li>
+        <li class="section-header">Machine Learning</li>
+        <li><a href="/nn.html">Homemade Neural Network</a></li>
+        <li><a href="/xgram.html">XGram</a></li>
+        <li><a href="/mlp.html">MLP</a></li>
+      </ul>
+    </aside>
+
+    <main class="main-content">
+      <div class="welcome">
+        <h1 class="header">X-Gram Language Modeling</h1>
+        <p>This page Contains documentation in the process of creating an LLM like chat gpt.
+            The first step is creating a language generator that generates unique words based on
+            a trained data set. This is the first iteration using a bigram and a trigram where following
+            letters are probabilisticly chosen based on the previous 1 and 2 letters accordingly. The code can be
+            easily changed to use 3, 4, or more letters to calculate the next and the following code can be found 
+            <a href = "https://github.com/thoknee/Xgram/blob/main/README.md" target="_blank"> here</a>
+        </p>
+      </div>
+
+      <hr class="custom-line">
+
+      <section>
+        <h2>Bigram</h2>
+        <p>We begin in the bigram model where we generate a probability matrix based on every letter and the probability of the next letter. Upon calculating the normalized loss at: 2.5476.
+
+This becomes important as this is the smallest loss that can be obtained using a bigram model on this set of words. It is trained on the complete set and the exact probabilities of each preceding letter. Upon running the training a couple times without a lot of optimization: </p>
+<br>        
+<pre>
+Iteration 0:  2.5718
+Iteration 10: 2.5842
+Iteration 20: 2.5651
+Iteration 30: 2.5721
+Iteration 40: 2.5846
+Iteration 50: 2.5772
+Iteration 60: 2.5723
+Iteration 70: 2.5789
+Iteration 80: 2.5951
+Iteration 90: 2.5763
+        </pre>
+        <p>This leads us to a difference of 0.02865079154 -- pretty good for not a totally optimized network.
+
+
+Generating some words gave us: </p>
+<br>
+        <pre>
+sscorerrmonrindringaspledoulionnishasumeablaly
+onun
+rinabblin
+sviopoes
+sere
+ideon
+tiog
+telabiasambleurac
+relly
+llyrararblis
+abecasstagramoron
+hgeerbmalotimackunfentadalesubicha
+gerbrrespriorinespeprivesacrdet
+celetc
+ocacookarrustethraterdiexpppoweg
+bumicyrestuly
+lictum
+meelathunereerafonged
+c
+ar
+g
+siniohy
+jasiatuldind
+cofumiziempaidese
+mpepochesizilie
+ve
+ylintus
+lagg
+        </pre>
+      </section>
+      <p>None of which look super great. Let's see if a trigram can achieve slightly better results.</p>
+
+      <hr class="custom-line">
+
+      <section>
+        <h2>Trigram</h2>
+        <p>Generating a similar probability matrix, this time looking at a series of 2 letters and the probability any individual letter comes next gives us a new matrix that is (729,27). Looking at the cost function of straight probability optimization we get: 2.2377. A noticable step up from the bigram. 
+ <br>
+Following similar steps and training a net we are able to train to: </p>
+
+<br>
+        <pre>
+Iteration 0:  2.5146
+Iteration 10: 2.4939
+Iteration 20: 2.4755
+Iteration 30: 2.4591
+Iteration 40: 2.4444
+Iteration 50: 2.4310
+Iteration 60: 2.4189
+Iteration 70: 2.4078
+Iteration 80: 2.3977
+Iteration 90: 2.3884
+        </pre>
+        <p>Which can easily be improved by more steps and marginal steps. 
+            Point is that the loss is lower, the trained net converges to lower and some words (although not much) seem to be a bit better.</p>
+        <br>
+            <pre>
+oleaurdid
+blwizjwxeolalaqphavinimph
+kpaml
+lint
+uewassputeoe
+qyo
+aaoasiropoyggnstilllagerdfliyaftilifftudgutr
+azoposymftude
+olpe
+hark
+xidscarcelgaqffimirdo
+ke
+aj
+koterte
+qbbe
+biqw
+gpurtihyfze
+euiddo
+gge
+        </pre>
+<br>
+    <p> Now let's take a look at giving this net a bit more depth and a couple layers in a multi
+        layer perceptron.
+    </p>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

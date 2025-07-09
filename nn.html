@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Neural Network from Scratch</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <aside class="sidebar">
+      <h3>Navigation</h3>
+      <ul>
+        <li><a href="/index.html">Home</a></li>
+        <li class="section-header">Machine Learning</li>
+        <li><a href="/nn.html">Homemade Neural Network</a></li>
+        <li><a href="/xgram.html">XGram</a></li>
+        <li><a href="/mlp.html">MLP</a></li>
+
+      </ul>
+    </aside>
+
+    <main class="main-content">
+      <div class="welcome">
+        <h1 class="header">Homemade Neural Network</h1>
+        <p>In an attempt to better understand neural networks and how they work, I built one entirely 
+            from scratch in Python — no frameworks, just raw computation. To see the code it can be found here: 
+        <a href = "https://github.com/thoknee/neuralNetwork/tree/main" target="_blank">here</a></p>
+      </div>
+
+      <hr class="custom-line">
+
+      <section>
+        <h2>Core Components</h2>
+        <p>The core of this project is built around three files:</p>
+        <ul class = "list">
+          <li><strong>backpropagation.py</strong>: Implements an automatic differentiation system by tracking gradients through a computation graph.</li>
+          <li><strong>neuralnetwork.py</strong>: Constructs the MLP using custom layers and neurons, each wired to track forward and backward passes.</li>
+          <li><strong>graph.py</strong>: Visualizes the computation graph and gradient flow using Graphviz.</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Backpropagation in Action</h2>
+        <p>Using <code>Var</code> objects, we can build any computational graph and then apply <code>.back()</code> to perform gradient tracking.</p>
+        <br>
+        <pre><code>a = Var(3)
+b = Var(12)
+c = Var(-5)
+d = Var(100)
+e = Var(-12)
+f = Var(19)
+
+z = a + b
+y = z * c * f
+final = y
+
+final.back()</code></pre>
+<pre><code>draw_graph(final)</code></pre>
+<br>
+        <p>After running the backward pass, you can visualize the graph using:</p>
+        
+        <p>Which produces a computation graph like the one below:</p>
+        <img src="/img/graph_output.png" alt="Computation graph" width="700", height = "125"/>
+      </section>
+
+      <hr class="custom-line">
+
+
+      <section>
+        <h2>Building the Neural Network</h2>
+        <p>After looking at a similar function like above, we can now turn this into a full neural network
+            through the final library provided. Through this you create neurons (where they're given a weight and a bias)
+            layers, where theyre strung together, and put together into a full proceptron. Through a Simple
+            initialization like this:
+        </p>
+        <pre><code>net = MLP(nin=3, nouts=[4, 4, 1])
+            ...
+            y_pred = model(x_vars)
+            loss = (y_pred - y_true) ** 2
+            total_loss += loss.data
+
+            model.zero_chng()
+            loss.back()
+            for p in model.parameters():
+                p.data -= 0.05 * p.chng 
+            ...
+        </code></pre>
+        <p>The neural network can be trained on data like the following: </p>
+
+        <br>
+        <img src="/img/nn.jpg" alt="MLP network layout" width="600"/>
+      </section>
+
+      <hr class="custom-line">
+
+    </main>
+  </div>
+</body>
+</html>
