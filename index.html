@@ -10,21 +10,23 @@
     
   <div class="container">
     
-    <button class="sidebar-toggle" onclick="toggleSidebar()">☰</button>
-    
-    <nav class="sidebar">
-      <h3>Navigation</h3>
-      <ul>
         
-        <li><a href="/index.html">Home</a></li>
-        <li class="section-header">Machine Learning</li>
-        <li><a href="/nn.html">Homemade Neural Network</a></li>
-        <li><a href="/xgram.html">XGram</a></li>
-        <li><a href="/mlp.html">MLP</a></li>
         
-      </ul>
-    </nav>
+        <nav class="sidebar">
+        <h3>Navigation</h3>
+        <ul>
+            
+            <li><a href="/index.html">Home</a></li>
+            <li class="section-header">Machine Learning</li>
+            <li><a href="/nn.html">Homemade Neural Network</a></li>
+            <li><a href="/xgram.html">XGram</a></li>
+            <li><a href="/mlp.html">MLP</a></li>
+            
+        </ul>
+        <button class="sidebar-toggle" onclick="toggleSidebar()">☰</button>
+        </nav>
 
+    
     <main class="main-content">
       <div class="welcome">
         <h1 class="header" id="top">Welcome!</h1>
@@ -183,6 +185,7 @@
 
     </main>
   </div>
+  
   <script>
   function toggleSidebar() {
     const sidebar = document.getElementById('sidebar');
