@@ -11,8 +11,9 @@
   <div class="container">
     
         
-        
-        <nav class="sidebar">
+        <button class="sidebar-toggle" onclick="toggleSidebar()">☰</button>
+        <nav class = "sidebar" id="sidebar">
+            
         <h3>Navigation</h3>
         <ul>
             
@@ -23,7 +24,7 @@
             <li><a href="/mlp.html">MLP</a></li>
             
         </ul>
-        <button class="sidebar-toggle" onclick="toggleSidebar()">☰</button>
+        
         </nav>
 
     
@@ -198,6 +199,17 @@
       sidebar.classList.remove('open');
     }
   }
+  document.addEventListener('click', (event) => {
+  const sidebar = document.getElementById('sidebar');
+  const toggle = document.querySelector('.sidebar-toggle');
+  if (
+    !sidebar.contains(event.target) &&
+    !toggle.contains(event.target) &&
+    sidebar.classList.contains('open')
+  ) {
+    sidebar.classList.remove('open');
+  }
+});
 </script>
 </body>
 </html>

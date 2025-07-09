@@ -8,16 +8,22 @@
 </head>
 <body>
   <div class="container">
-    <aside class="sidebar">
-      <h3>Navigation</h3>
-      <ul>
-        <li><a href="/index.html">Home</a></li>
-        <li class="section-header">Machine Learning</li>
-        <li><a href="/nn.html">Homemade Neural Network</a></li>
-        <li><a href="/xgram.html">XGram</a></li>
-        <li><a href="/mlp.html">MLP</a></li>
-      </ul>
-    </aside>
+   
+   
+    <button class="sidebar-toggle" onclick="toggleSidebar()">☰</button>
+        <nav class = "sidebar" id="sidebar">   
+        <h3>Navigation</h3>
+        <ul>
+            
+            <li><a href="/index.html">Home</a></li>
+            <li class="section-header">Machine Learning</li>
+            <li><a href="/nn.html">Homemade Neural Network</a></li>
+            <li><a href="/xgram.html">XGram</a></li>
+            <li><a href="/mlp.html">MLP</a></li>
+            
+        </ul>
+        </nav>
+
 
     <main class="main-content">
       <div class="welcome">
@@ -142,4 +148,28 @@ gge
     </main>
   </div>
 </body>
+<script>
+  function toggleSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    sidebar.classList.toggle('open');
+  }
+
+  function closeSidebarOnMobile() {
+    const sidebar = document.getElementById('sidebar');
+    if (window.innerWidth <= 768) {
+      sidebar.classList.remove('open');
+    }
+  }
+  document.addEventListener('click', (event) => {
+  const sidebar = document.getElementById('sidebar');
+  const toggle = document.querySelector('.sidebar-toggle');
+  if (
+    !sidebar.contains(event.target) &&
+    !toggle.contains(event.target) &&
+    sidebar.classList.contains('open')
+  ) {
+    sidebar.classList.remove('open');
+  }
+});
+</script>
 </html>
