@@ -7,8 +7,12 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+    
   <div class="container">
-    <aside class="sidebar">
+    
+    <button class="sidebar-toggle" onclick="toggleSidebar()">☰</button>
+    
+    <nav class="sidebar">
       <h3>Navigation</h3>
       <ul>
         
@@ -19,7 +23,7 @@
         <li><a href="/mlp.html">MLP</a></li>
         
       </ul>
-    </aside>
+    </nav>
 
     <main class="main-content">
       <div class="welcome">
@@ -179,5 +183,18 @@
 
     </main>
   </div>
+  <script>
+  function toggleSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    sidebar.classList.toggle('open');
+  }
+
+  function closeSidebarOnMobile() {
+    const sidebar = document.getElementById('sidebar');
+    if (window.innerWidth <= 768) {
+      sidebar.classList.remove('open');
+    }
+  }
+</script>
 </body>
 </html>
