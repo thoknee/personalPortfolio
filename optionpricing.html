@@ -30,7 +30,12 @@
     <main class="main-content">
       <div class="welcome">
         <h1 class="header">Option Pricing</h1>
-        <p>
+        <p>This is a streamlit project that goes through ways to price options. It includes the binomial 
+            tree, monte carlo simulations, and the black-scholes merton model as 3 different ways to price 
+            options.
+            The deployed website is at: <a href = "https://derivativepricing.streamlit.app" target = "_blanke">Option Pricer</a>
+            <br>
+            The code can be found:
             <a href = "https://github.com/thoknee/Xgram/blob/main/README.md" target="_blank"> here</a>
         </p>
       </div>
@@ -38,110 +43,96 @@
       <hr class="custom-line">
 
       <section>
-        <h2>Bigram</h2>
-        <p>We begin in the bigram model where we generate a probability matrix based on every letter and the probability of the next letter. Upon calculating the normalized loss at: 2.5476.
+        <h2>Binomial Tree Model Pricing</h2>
+        <p>Binomial tree option pricing is the most simple form of pricing options. It assumes that any stock can go up and down 
+            a calculated amount with a calculated probability. 
+            
+            <br>
+            <br>
+            When looking at the binomial option calculation,
+            if you input a step count of less than 10 you can view the the entire price tree.
+            <br>
+            <br>
+            To compare alongside the monte carlo simulation and black scholes, let's keep a common input that we can compare prices at the end.
+            For this, we will have the following:
 
-This becomes important as this is the smallest loss that can be obtained using a bigram model on this set of words. It is trained on the complete set and the exact probabilities of each preceding letter. Upon running the training a couple times without a lot of optimization: </p>
+            Spot price = $100
+            Strike price = $110
+            Time to expiry = 1 year
+            Risk free rate: 5%
+            Volatility: 0.2
+
+WWith these inputs, we get the following binomial option pricings: </p>
 <br>        
 <pre>
-Iteration 0:  2.5718
-Iteration 10: 2.5842
-Iteration 20: 2.5651
-Iteration 30: 2.5721
-Iteration 40: 2.5846
-Iteration 50: 2.5772
-Iteration 60: 2.5723
-Iteration 70: 2.5789
-Iteration 80: 2.5951
-Iteration 90: 2.5763
+Call: $6.099
+Put: $10.7344
         </pre>
-        <p>This leads us to a difference of 0.02865079154 -- pretty good for not a totally optimized network.
-
-
-Generating some words gave us: </p>
+        <p>
+        Intuitively this makes some sense. Because the strike price is $10 more than the current price,
+        for a call to be exercised in the money, it would have to go up. A put on the other hand would
+        be able to stay the same/increase only a little bit. This gives the put intrinsic value today
+        while the call does not.    
+        </p>
 <br>
-        <pre>
-sscorerrmonrindringaspledoulionnishasumeablaly
-onun
-rinabblin
-sviopoes
-sere
-ideon
-tiog
-telabiasambleurac
-relly
-llyrararblis
-abecasstagramoron
-hgeerbmalotimackunfentadalesubicha
-gerbrrespriorinespeprivesacrdet
-celetc
-ocacookarrustethraterdiexpppoweg
-bumicyrestuly
-lictum
-meelathunereerafonged
-c
-ar
-g
-siniohy
-jasiatuldind
-cofumiziempaidese
-mpepochesizilie
-ve
-ylintus
-lagg
-        </pre>
-      </section>
-      <p>None of which look super great. Let's see if a trigram can achieve slightly better results.</p>
+       
 
+      </section>
       <hr class="custom-line">
 
       <section>
-        <h2>Trigram</h2>
-        <p>Generating a similar probability matrix, this time looking at a series of 2 letters and the probability any individual letter comes next gives us a new matrix that is (729,27). Looking at the cost function of straight probability optimization we get: 2.2377. A noticable step up from the bigram. 
- <br>
-Following similar steps and training a net we are able to train to: </p>
+        <h2>Monte Carlo Simulations</h2>
+        <p>Monte Carlo simulations are ver similar to a binomial tree. The major difference
+            is that we just a random 
+            brownian motion to predict the price change in stock. From this we are also able to 
+            estimate the price of options over time. 
+        <br>
+        Using the same parameters as above we obtained the following:
+
+ </p>
 
 <br>
         <pre>
-Iteration 0:  2.5146
-Iteration 10: 2.4939
-Iteration 20: 2.4755
-Iteration 30: 2.4591
-Iteration 40: 2.4444
-Iteration 50: 2.4310
-Iteration 60: 2.4189
-Iteration 70: 2.4078
-Iteration 80: 2.3977
-Iteration 90: 2.3884
+        Call Price: $6.0104
+        Put Price: $10.7616
         </pre>
-        <p>Which can easily be improved by more steps and marginal steps. 
-            Point is that the loss is lower, the trained net converges to lower and some words (although not much) seem to be a bit better.</p>
+        <p>This isn't very far off from our binomial tree and if you look at the streamlit yourself you can see
+             a subset of all the random paths that we looked at to calculate the movement of the stock. 
+             Interestingly enough, if you run this a couple times you'll actually get slightly different 
+             answers everytime. 
+            This is because of the inherent randomness of the stock price path. </p>
         <br>
-            <pre>
-oleaurdid
-blwizjwxeolalaqphavinimph
-kpaml
-lint
-uewassputeoe
-qyo
-aaoasiropoyggnstilllagerdfliyaftilifftudgutr
-azoposymftude
-olpe
-hark
-xidscarcelgaqffimirdo
-ke
-aj
-koterte
-qbbe
-biqw
-gpurtihyfze
-euiddo
-gge
-        </pre>
+        
 <br>
-    <p> Now let's take a look at giving this net a bit more depth and a couple layers in a multi
-        layer perceptron.
-    </p>
+      </section>
+      <section>
+        <h2>Black Scholes Merton</h2>
+        <p>Now we are going to look at the most common way of calculating the price of stocks. 
+            The Black Scholes Merton model is the closed solution to the partial differntial 
+            equation that describes prices evolution of derivatives. This gives us a closed 
+            form solution that with the right parameters allows us to calculate the fair value of options. 
+        <br>
+        <br>
+        In the app the Black Scholes feature comes with some other things that you can experiment with. 
+        First is a heatmap that will show you how the price of a put/call will change as the volatility 
+        and spot price change. Furthermore, you can look at a P/L graph for simple calls and puts as 
+        the stock price increases.
+        
+        
+
+ </p>
+
+<br>
+<p>To test the black schole smodel using the same parameters that we have throughout, we get: 
+</p>
+        <pre>
+        Call Price: $6.04
+        Put price: $10.68       
+        </pre>
+        <p>It is no conincedence that all of these are in a similar range. They all build off one another, some are just more accurate and easier to use than others. </p>
+        <br>
+        
+<br>
       </section>
     </main>
   </div>
