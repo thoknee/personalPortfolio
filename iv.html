@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Implied Volatility</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <button class="sidebar-toggle" onclick="toggleSidebar()">☰</button>
+        <nav class = "sidebar" id="sidebar">   
+        <h3>Navigation</h3>
+        <ul>
+            
+            <li><a href="/index.html">Home</a></li>
+            <li class="section-header">Finance</li>
+            <li><a href="/optionpricing.html">Option Pricing</a></li>
+            <li><a href="/iv.html">Implied Volatility Calculator</a></li>
+            <li class="section-header">Machine Learning</li>
+            <li><a href="/nn.html">Homemade Neural Network</a></li>
+            <li><a href="/xgram.html">XGram</a></li>
+            <li><a href="/mlp.html">MLP</a></li>
+            <li><a href="/MLPupgrade.html">MLP Upgrade</a></li>
+            
+        </ul>
+        </nav>
+
+
+    <main class="main-content">
+      <div class="welcome">
+        <h1 class="header">Implied Volatility Calculator</h1>
+        <p>In this project I aimed to explore implied volatility, how it's calculated, and 
+            its applications to trading and the market at large. A streamlit web interface
+            where you can experiment with different tickers and see how it changes according
+            to expiry/strike price can be found 
+
+            <a href = "https://ivcalc.streamlit.app" target="_blank"> here</a>
+            <br> <br>
+
+            Implied volatility is the assumed volatility of a certain stock based on the current
+            price of its own options. This can be extremely useful in trading and its application
+            to strategies is endless. Calculating it is, in theory, pretty easy but in practice
+            a little bit more difficult. calculating it comes down to solving the Black-Scholes Merton
+            model for volatility based on the market price of options. Fortunately, with python, this is does
+            done very simply with the minimize_scalar method as shown here: 
+                <br> <br>
+            <pre>
+    result = minimize_scalar(objective, bounds=(1e-4, 5.0), method='bounded')
+            </pre>
+
+            All we are doing with this function is continually changing sigma until the 
+            calculated strike price is ~= the market price. The sigma where this is the case 
+            is the assumed volatility of the market.
+
+            <br><br>
+            
+            If we want to see how the implied volatility changes for a stock like AAPL,
+            it will look something like this:
+            <br><br>
+
+            <img src="/img/AAPL_IV.png" alt="AAPL Implied Volatility" width="600"/>
+
+
+            <br><br>
+
+            This is where implied volatility can be very useful. Options that are near expiration
+            seem to have extremely high implied volatility which means that traders
+            are likely expecting statistically significant movement in the next couple days.
+
+            <br><br>
+
+            This makes perfect sense as of the time of analyzing this, Apple is set to release
+            their earnings in just about a week. This would explain the markets assumption of high
+            fluctuations as the stocks reaction to unearnings is hard to predict. 
+
+            <br><br>
+
+            This is a prime example of how implied volatility can be useful in analyzing
+            market trends and coming up with strategies. 
+
+            
+            
+   
+    </main>
+  </div>
+</body>
+<script>
+  function toggleSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    sidebar.classList.toggle('open');
+  }
+
+  function closeSidebarOnMobile() {
+    const sidebar = document.getElementById('sidebar');
+    if (window.innerWidth <= 768) {
+      sidebar.classList.remove('open');
+    }
+  }
+  document.addEventListener('click', (event) => {
+  const sidebar = document.getElementById('sidebar');
+  const toggle = document.querySelector('.sidebar-toggle');
+  if (
+    !sidebar.contains(event.target) &&
+    !toggle.contains(event.target) &&
+    sidebar.classList.contains('open')
+  ) {
+    sidebar.classList.remove('open');
+  }
+});
+</script>
+</html>
