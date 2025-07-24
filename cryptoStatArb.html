@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Implied Volatility</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <button class="sidebar-toggle" onclick="toggleSidebar()">☰</button>
+        <nav class = "sidebar" id="sidebar">   
+        <h3>Navigation</h3>
+        <ul>
+            
+            <li><a href="/index.html">Home</a></li>
+            <li class="section-header">Finance</li>
+            <li><a href="/optionpricing.html">Option Pricing</a></li>
+            <li><a href="/iv.html">Implied Volatility Calculator</a></li>
+            <li><a href="/cryptoStatArb.html">Crypto Statistical Arbitrage</a></li>
+            <li class="section-header">Machine Learning</li>
+            <li><a href="/nn.html">Homemade Neural Network</a></li>
+            <li><a href="/xgram.html">XGram</a></li>
+            <li><a href="/mlp.html">MLP</a></li>
+            <li><a href="/MLPupgrade.html">MLP Upgrade</a></li>
+            
+        </ul>
+        </nav>
+
+
+    <main class="main-content">
+      <div class="welcome">
+        <h1 class="header">Crypto Statistical Arbitrage</h1>
+        <p>This is the outline to a crypto currency statistical arbitrage strategy that 
+            I have been working on recently. It takes inspiration and follows "Statistical Arbitrage within Crypto Markets using PCA"
+            By Jay Jung with some tweaks that have led to more successful returns and sharpe ratio
+            even in recent years (2023 - 2025)
+            <br> <br>
+
+                The strategy remains quite simple and a staple in quantitative trading.
+                The idea is to find crypto currencies that move together and look for where 
+                they might diverge banking on a mean reversal looking to extract some kind
+                of arbitrage. 
+                <br> <br>
+
+                Evidently, this strategy has been widely used in stocks since the beginning
+                of quantitatively looking at stocks. Crypto, as Jung optimistically points out 
+                is still a market full of inefficiencies that we will try to capitalize on.
+
+            <hr class="custom-line">
+
+            <h2>Version 1</h2>
+
+            <br>
+
+            <h3>Data</h3>
+
+            The first step as with any project is to get the data. I decided on getting 500 
+            highest volume crypto currencies in the last 3 years. From here I cleaned out 
+            all stable coins but decided not to enact the other methodolgies Jung outlined 
+            for the initial simple backtest. 
+
+            <br><br>
+            
+            For the first most simple backtest, I did not incorporate any dynamic
+            universe. I simply found the cointegration of every pair of coins and ranked 
+            them based on their p value and t-stat.
+
+            <br><br>
+
+
+            <h3>Trading</h3>
+
+            Upon obtaining the pairs of coins with the lowest t stat and a p-value as near 0
+            as possible it was time to create positions based on the coins.
+
+            I opted for a simpler version of what Jung outlined and instead looked at
+            the average of a pair of coins and the z score the coin price. If there 
+            was a zscore of greater than 2, you would short the coin and a z-score less than -2 
+            would trigger a long. 
+
+            <br><br>
+
+            <h3>Results</h3>
+
+            This very simple strategy with no universe rebalancing gave a sharpe ratio for 
+            July 2024 - July 2025 of 1.54 after fees. This is surprisngly a pretty good sharpe ratio but would 
+            most likely not hold up in practice. In this version the cointegration 
+            lookback window was just all the data up until July 2024. In this particular
+            case it is likely that we just got lucky and cointegration remained for a majority 
+            of these coins for the following year.
+            <br><br>
+            The return graph looked like this: 
+            <br><br>
+            <img src="/img/cryptoStatArb_1.png" alt="First Simple Strategy Returns" width="600"/>
+            <br><br>
+            This is not a good backtest by any means but rather a framework for what I want this strategy will 
+            be built on. Some next steps is to continue to omit coins that slow down in trading, making 
+            sure trading volume is high enough, and account for negative shock.
+            
+            <br><br>
+
+            Furthermore, to add universe rebalancing and a reasonable lookback window 
+            that the cointegration can use.
+            
+
+            
+            
+   
+    </main>
+  </div>
+</body>
+<script>
+  function toggleSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    sidebar.classList.toggle('open');
+  }
+
+  function closeSidebarOnMobile() {
+    const sidebar = document.getElementById('sidebar');
+    if (window.innerWidth <= 768) {
+      sidebar.classList.remove('open');
+    }
+  }
+  document.addEventListener('click', (event) => {
+  const sidebar = document.getElementById('sidebar');
+  const toggle = document.querySelector('.sidebar-toggle');
+  if (
+    !sidebar.contains(event.target) &&
+    !toggle.contains(event.target) &&
+    sidebar.classList.contains('open')
+  ) {
+    sidebar.classList.remove('open');
+  }
+});
+</script>
+</html>
