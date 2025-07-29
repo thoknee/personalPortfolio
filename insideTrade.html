@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mirroring Insider Trades</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <button class="sidebar-toggle" onclick="toggleSidebar()">☰</button>
+    <nav class="sidebar" id="sidebar">
+      <h3>Navigation</h3>
+      <ul>
+        <li><a href="/index.html">Home</a></li>
+        <li class="section-header">Finance</li>
+        <li><a href="/optionpricing.html">Option Pricing</a></li>
+        <li><a href="/iv.html">Implied Volatility Calculator</a></li>
+        <li><a href="/insideTrade.html">Inside Trading Momentum</a></li>
+        <li><a href="/cryptoStatArb.html">Crypto Statistical Arbitrage</a></li>
+        <li class="section-header">Machine Learning</li>
+        <li><a href="/nn.html">Homemade Neural Network</a></li>
+        <li><a href="/xgram.html">XGram</a></li>
+        <li><a href="/mlp.html">MLP</a></li>
+        <li><a href="/MLPupgrade.html">MLP Upgrade</a></li>
+      </ul>
+    </nav>
+
+    <main class="main-content">
+      <div class="welcome">
+        <h1 class="header">Mirroring Insider Trades</h1>
+        <p>This strategy analyzes SEC filings for momentum signals 
+            around insider activity. Here’s a breakdown of the process 
+            and how it performed.</p>
+
+        <hr class="custom-line">
+
+        <h3>Step 1: Gathering SEC Filings</h3>
+        <p>Using <code>openinsider.com</code>, which is easily scrapable, I pulled insider trade data with filters for volume and time horizon:</p>
+        <pre><code>def get_insideTrades():
+    allTrades = pd.DataFrame()
+    pages = 4
+    for x in range(pages):
+        url = f'http://openinsider.com/screener...'
+        tables = pd.read_html(url)</code></pre>
+<br>
+        <h3>Step 2: Getting Stock Data</h3>
+        <p>I pulled historical stock data using <code>yfinance</code>
+            <br>
+            <em>Note: this does not account for survivorship bias, which I address later.</em></p>
+<br>
+        <h3>Step 3: Filtering for Meaningful Trades</h3>
+        <p>I calculated the trade size as a percentage of market cap and filtered for significant trades:</p>
+        <pre><code>for x in range(len(df)):
+    ticker = df.iloc[x]['Ticker']
+    tradeDate = df.iloc[x]['TradeDate']
+    MC = getMarketCap(ticker, tradeDate)
+    tradeValue = float(df.iloc[x]['Value'].replace("$", "").replace(",", ""))
+    if MC and MC > 0:
+        pctMC = tradeValue / MC</code></pre>
+<br>
+        <h3>Step 4: Defining Signal Conditions</h3>
+        <p>I established thresholds for trade size and pre-filing momentum:</p>
+        <pre><code>momentum_threshold = -0.02
+size_threshold = 0.01
+lookback_days = 3</code></pre>
+
+        <p>Then computed momentum leading into the trade:</p>
+        <pre><code>momentum = (price_file - price_before) / price_file</code></pre>
+<br>
+        <h3>Step 5: Position Logic</h3>
+        <p>The strategy goes long if an insider buys into downward momentum (buying the dip) and short if an insider sells into upward momentum:</p>
+        <pre><code>if momentum < momentum_threshold:
+    rets.at[file_date, f'{ticker}_position'] = 1
+else:
+    rets.at[file_date, f'{ticker}_position'] = 0
+
+if trade_size < -size_threshold:
+    if momentum > -momentum_threshold:
+        rets.at[file_date, f'{ticker}_position'] = -1</code></pre>
+
+        <h3>Results</h3>
+        <p>After aggregating returns across stocks:</p>
+        <pre><code>sharpe = rets['totalReturn'].mean() / rets['totalReturn'].std() * np.sqrt(252)
+fullReturns = rets['totalReturn'].mean() * 252
+rets['totalReturn'].cumsum().plot()</code></pre>
+        <p><strong>Sharpe Ratio:</strong> 1.65</p>
+        <img src="/img/insider1day.png" alt="First Simple Strategy Returns" width="600"/>
+        <p>Notably, this performance was based on a 1-day holding period. Holding longer may enhance returns, something I plan to test further.</p>
+
+        <h3>Things to Keep in Mind</h3>
+        <ol>
+          <li><strong>Lookback Bias:</strong> yfinance excludes delisted stocks, so returns may be inflated due to missing bankrupt companies. With a short holding window, this may have minimal impact, but it's worth deeper testing.</li>
+          <li><strong>Data Snooping Bias:</strong> This strategy has tunable parameters. Without care, they can overfit. I’m mindful of this and will incorporate more robust validation as I iterate.</li>
+        </ol>
+
+        <p>Overall, I believe this strategy shows real promise. I’m continuing to refine it and plan to test it in a leveraged environment to evaluate live performance and risk-adjusted returns.</p>
+
+      </div>
+    </main>
+  </div>
+</body>
+<script>
+  function toggleSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    sidebar.classList.toggle('open');
+  }
+
+  document.addEventListener('click', (event) => {
+    const sidebar = document.getElementById('sidebar');
+    const toggle = document.querySelector('.sidebar-toggle');
+    if (!sidebar.contains(event.target) && !toggle.contains(event.target)) {
+      sidebar.classList.remove('open');
+    }
+  });
+</script>
+</html>
