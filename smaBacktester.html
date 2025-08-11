@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SMA Backtesting Library</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <button class="sidebar-toggle" onclick="toggleSidebar()">☰</button>
+        <nav class = "sidebar" id="sidebar">   
+        <h3>Navigation</h3>
+        <ul>
+            
+             <li><a href="/index.html">Home</a></li>
+            <li class="section-header">Finance</li>
+            <li><a href="/optionpricing.html">Option Pricing</a></li>
+            <li><a href="/iv.html">Implied Volatility Calculator</a></li>
+            <li><a href="/smaBacktester.html">SMA Backtesting Library</a></li>
+             <li><a href="/insideTrade.html">Inside Trading Momentum</a></li>
+             <li><a href="/cryptoStatArb.html">Crypto Statistical Arbitrage</a></li>
+            <li class="section-header">Machine Learning</li>
+            
+            <li><a href="/nn.html">Homemade Neural Network</a></li>
+            <li><a href="/xgram.html">XGram</a></li>
+            <li><a href="/mlp.html">MLP</a></li>
+            <li><a href="/MLPupgrade.html">MLP Upgrade</a></li>
+            
+        </ul>
+        </nav>
+
+
+    <main class="main-content">
+      <div class="welcome">
+        <h1 class="header">SMA Backtesting Library</h1>
+        <p>To further experiment and learn about different trading strategies, I've implemented
+            a simple backtesting library for a classic trading strategy: simple moving averages.
+            <br> <br>
+
+                The strategy is extremely simple. We look at the moving averages 
+                of an assets log returns. If a shorter moving average crosses a longer 
+                moving average it is a signal that momentum has shifted and initiates a 
+                change in position.
+                <br> <br>
+
+                This library allows us to test different assets over various time periods 
+                and optimize the moving averages. Using it is quite simple, code can 
+                be found <a href =https://github.com/thoknee/SMA-Backtest/tree/main target="_blank"> here</a>.
+<br> <br>
+
+                You set up the strategy like so: <br> <br>
+                <pre><code>    strategy = SMA('META',12,154, '2024-1-1')
+    strategy.run_strategy()</code></pre>
+
+ <br>
+    From here, you can do a couple things. First, you can visualize the returns 
+    compared to simply buying and holding the stock over the same period:
+    
+     <pre><code>    strategy.visual('returns')</code></pre> <br>
+
+    Which gives us the following:
+                     <br>
+    <br><img src="/img/SMAresults.png" alt="Simple Moving Average Results" width="600"/>
+
+
+    <br><br>
+
+    Next, you can visualize the actual crosses and where they happen according to the 
+    stock prices:
+                
+    <pre><code>    strategy.visual('sma')</code></pre> <br>
+
+    <br><img src="/img/SMAcrosses.png" alt="Simple Moving Average Results" width="600"/>
+
+
+    <br> This now shows you the log prices as well as where the golden/death crosses 
+    are according to the stock price. This is just a fun visualization tool for the strategy 
+    at hand.
+
+    <br><br>
+    Finally, you can optimize the moving averages to find ones that have the biggest returns. 
+    This can be leveraged for a test/train data set to see if its actually accurate 
+    or just look ahead bias. 
+
+    <pre><code>    strategy.optimize((2,70,2), (100,400,2))</code></pre> <br>
+
+
+    Upon running this, we got:
+
+    <pre><code>     array([ 12., 154.])</code></pre>
+
+    Which is why I was using 12 and 154 earlier.
+            <hr class="custom-line">
+            
+   
+    </main>
+  </div>
+</body>
+<script>
+  function toggleSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    sidebar.classList.toggle('open');
+  }
+
+  function closeSidebarOnMobile() {
+    const sidebar = document.getElementById('sidebar');
+    if (window.innerWidth <= 768) {
+      sidebar.classList.remove('open');
+    }
+  }
+  document.addEventListener('click', (event) => {
+  const sidebar = document.getElementById('sidebar');
+  const toggle = document.querySelector('.sidebar-toggle');
+  if (
+    !sidebar.contains(event.target) &&
+    !toggle.contains(event.target) &&
+    sidebar.classList.contains('open')
+  ) {
+    sidebar.classList.remove('open');
+  }
+});
+</script>
+</html>
