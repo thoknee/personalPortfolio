@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sports Book Arbitrage</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+   
+   
+    <button class="sidebar-toggle" onclick="toggleSidebar()">☰</button>
+        <nav class = "sidebar" id="sidebar">   
+        <h3>Navigation</h3>
+        <ul>
+            
+             <li><a href="/index.html">Home</a></li>
+            <li class="section-header">Finance</li>
+            <li><a href="/optionpricing.html">Option Pricing</a></li>
+            <li><a href="/iv.html">Implied Volatility Calculator</a></li>
+            <li><a href="/portfolioOptimization.html">Portfolio Optimizer</a></li>
+            <li><a href="/smaBacktester.html">SMA Backtesting Library</a></li>
+            <li><a href="/insideTrade.html">Inside Trading Momentum</a></li>
+            <li><a href="/cryptoStatArb.html">Crypto Statistical Arbitrage</a></li>
+            <li class="section-header">Machine Learning</li>
+            
+            <li><a href="/nn.html">Homemade Neural Network</a></li>
+            <li><a href="/xgram.html">XGram</a></li>
+            <li><a href="/mlp.html">MLP</a></li>
+            <li><a href="/MLPupgrade.html">MLP Upgrade</a></li>
+            
+            <li class="section-header">Other</li>
+            <li><a href="/sportarb.html">Sports Book Arbitrage</a></li>
+            
+        </ul>
+        </nav>
+
+
+    <main class="main-content">
+      <div class="welcome">
+        <h1 class="header">Sports Arbitrage Calculator</h1>
+        <p>This project looks at odds on sporting events and looks for arbitrage opportunities between different sports books.
+
+            <br>
+           The code can be found: 
+            <a href = "https://github.com/thoknee/arb" target="_blank"> here</a>
+        </p>
+      </div>
+
+      <hr class="custom-line">
+
+        <h2>Set up</h2>
+        <p>After cloning, you need to get an API key from this website: <a href = "https://the-odds-api.com/" target = "_blank"></a>
+            
+            <br>
+            <br>
+
+            Enter that API key into main.py where it says "API KEY" and it's ready to run.
+<br>
+            Running it is very simple. All you have to do is run python main.py in your terminal 
+            while in the correct directory and it will run. You can use the following parameters 
+            to customize your results:
+
+            <ol>
+                <li> -k: this is looking for your odds api key. If you didn't put it in main.py you will have to 
+                    put it here.
+                </li>
+                <li> -r: Allows you to select your region. The regions are as follows: "eu", "us", "au", "uk"</li>
+                <li> -c: Profit cutoff. Gives the minimum profit margin for the arbitrage to be printed</li>
+                <li> -b: Gives the total amount of money the user has to allocate for any arbitrage opportunity. </li>
+                <li> </li>
+            </ol>
+    
+            Running it looks something like this where the region is the united states, the minimum 
+            profit is $10, and the budget per opportunity is $200: 
+
+            <br><img src="/img/arbRun.png" alt="Running the arbitrage " width="600"/>
+
+            <br>
+            <br>
+
+            After going through every match, the following output is given:
+
+
+        <br><img src="/img/arbs.png" alt="Running the arbitrage " width="600"/>
+
+        <br>
+        <br>
+        From here, if you are a sports gambler, then you can use these to your advantage guaranteeing you profit 
+        between sports books.
+      
+    </main>
+  </div>
+</body>
+<script>
+  function toggleSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    sidebar.classList.toggle('open');
+  }
+
+  function closeSidebarOnMobile() {
+    const sidebar = document.getElementById('sidebar');
+    if (window.innerWidth <= 768) {
+      sidebar.classList.remove('open');
+    }
+  }
+  document.addEventListener('click', (event) => {
+  const sidebar = document.getElementById('sidebar');
+  const toggle = document.querySelector('.sidebar-toggle');
+  if (
+    !sidebar.contains(event.target) &&
+    !toggle.contains(event.target) &&
+    sidebar.classList.contains('open')
+  ) {
+    sidebar.classList.remove('open');
+  }
+});
+</script>
+</html>
