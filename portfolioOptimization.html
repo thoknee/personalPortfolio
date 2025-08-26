@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Portfolio Optimization</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+   
+   
+    <button class="sidebar-toggle" onclick="toggleSidebar()">☰</button>
+        <nav class = "sidebar" id="sidebar">   
+        <h3>Navigation</h3>
+        <ul>
+            
+             <li><a href="/index.html">Home</a></li>
+            <li class="section-header">Finance</li>
+            <li><a href="/optionpricing.html">Option Pricing</a></li>
+            <li><a href="/iv.html">Implied Volatility Calculator</a></li>
+            <li><a href="/portfolioOptimization.html">Portfolio Optimizer</a></li>
+            <li><a href="/smaBacktester.html">SMA Backtesting Library</a></li>
+            <li><a href="/insideTrade.html">Inside Trading Momentum</a></li>
+            <li><a href="/cryptoStatArb.html">Crypto Statistical Arbitrage</a></li>
+            <li class="section-header">Machine Learning</li>
+            
+            <li><a href="/nn.html">Homemade Neural Network</a></li>
+            <li><a href="/xgram.html">XGram</a></li>
+            <li><a href="/mlp.html">MLP</a></li>
+            <li><a href="/MLPupgrade.html">MLP Upgrade</a></li>
+            
+        </ul>
+        </nav>
+
+
+    <main class="main-content">
+      <div class="welcome">
+        <h1 class="header">Portfolio Optimizer</h1>
+        <p>This project looks to create an efficient way to optimize portfolios
+            based on what you're looking for. You can maximize the return, minimize the risk,
+            look at a tradeoff between return/risk, and maximize the sharpe ratio.
+            As always, the deployed version can be found here: <a href = "https://optimize-portfolios.streamlit.app/" target = "_blanke">Portfolio Optimizer</a>
+            <br>
+            And the code can be found here:
+            <a href = "https://github.com/thoknee/portfolioOptimization" target="_blank"> here</a>
+        </p>
+      </div>
+
+      <hr class="custom-line">
+
+        <h2>Set up</h2>
+        <p>Upon opening the deployed site, you will be met with a side bar where 
+            your selections can be made. Upon choosing your tickers, start date, end date, and
+            risk free rate, you can now choose your optimization and risk settings. 
+            
+            <br>
+            <br>
+
+            On the main site it will give you some general information about these tickers over 
+            the period of time selected. You can see the closing prices, the annual mean returns,
+            the covariance, and the correlation between each stock and every other stock as follows:
+<br>
+            <br> 
+            <img src="/img/PO_setup.png" alt="Initial data for portfolio" width="600"/>
+            <br>
+            <br>    
+            From here, you can choose to optimize the portfolio in 4 different ways:
+            <br>
+
+            <ol>
+            <li>Max Return: Finds the optimal weights to have the highest possible return over this period</li>
+          
+            <li>Minimum Variance: Optimal portfolio weights to find the smallest possible volatility.</li>
+            
+            <li>Risk/return tradeoff: Using a risk aversion factor, gamma, it finds the highest return 
+            and lowest volatility based on gamma. It is calculated by optimizing the following 
+            equation: return - gamma * volatility.</li>
+            
+            <li>Maximum Sharpe: Using the efficient frontier graph, it optimizes the sharpe ratio for these tickers.</li>
+            
+            </ol>
+            <br>
+            <br>
+                Upon selecting one of the 4 optimization technique, the portfolio optimizer will 
+                give you the following information: 
+
+                <br>
+
+                <ol>
+                    <li>Solution type: A simple line that shares that a solution was found and what 
+                        exactly the solution was.
+                    </li>
+                    <li>Expected mean return, volatility, and sharpe of this optimization</li>
+                    <li>List of portfolio weights and a pie chart with visualization</li>
+                    <li>Backtest graph that illustrates the returns of this portfolio over this time</li>
+                    <li>Sharpe, Sortino, and Calmar ratios</li>
+                    <li>Graph of all the drawdowns as well as the maximum drawdown over this period</li>
+                    <li>Historical and parametric Value at Risk and conditional Value at Risk according 
+                        to the risk metrics selected in the side bar.</li>
+                    <li>Monte Carlo simulation for this portfolio for selected amount of days </li>
+                    <li>If sharpe minimization is selected, a display of the efficient frontier will also be displayed.</li>
+                </ol>
+                
+                <br>
+                
+            </p>
+<br>        
+<br>
+       
+
+      
+    </main>
+  </div>
+</body>
+<script>
+  function toggleSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    sidebar.classList.toggle('open');
+  }
+
+  function closeSidebarOnMobile() {
+    const sidebar = document.getElementById('sidebar');
+    if (window.innerWidth <= 768) {
+      sidebar.classList.remove('open');
+    }
+  }
+  document.addEventListener('click', (event) => {
+  const sidebar = document.getElementById('sidebar');
+  const toggle = document.querySelector('.sidebar-toggle');
+  if (
+    !sidebar.contains(event.target) &&
+    !toggle.contains(event.target) &&
+    sidebar.classList.contains('open')
+  ) {
+    sidebar.classList.remove('open');
+  }
+});
+</script>
+</html>
